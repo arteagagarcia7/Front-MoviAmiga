@@ -1,0 +1,427 @@
+@import './base.css';
+
+/* La sintaxis de CSS consta de un selector (ej:h1), seguido de bloque de declaración que contiene propiedad y valor (ej: color: blue). */
+
+/* Body define los estilos para el cuerpo de la página. */
+body {
+    /* El font-family se usa para establecer la fuente del texto (tipos de letra) */
+    font-family: sans-serif;
+
+    /* El marging y padding elimina márgenes y defectos por relleno del navegador*/
+    margin: 0;
+    padding: 0;
+
+    /* El background-color establece un color de fondo */
+    background-color: #D9D9D9;
+
+    /*display flex permite que el contenido dentro del body sea flexible permitiendo organizar todo mejor.*/
+    display: flex;
+
+    /*flex-direction colum permite que los elementos secundarios se organicen en una columna vertical.*/
+    flex-direction: column;
+
+    /*Este permite que el body ocupe al menos la altura total de la pantalla del navegador, para que el footer se mantenga.*/
+    min-height: 100vh;
+}
+
+/*header son los estilos para el encabezado*/
+header{
+
+    /* El background-color establece un color de fondo */
+    background-color: #8CCB3E;
+
+    /*Este color establece el color del texto*/
+    color: black;
+
+    /*El text-align se encarga de la alineación del texto, en este caso centrado*/
+    text-align: center;
+
+    /*Este padding agrega espacio en la parte superior e inferior en este caso 10 px*/
+    padding: 10px 0;
+
+    /* Hace que la posicion del header se quede fija cuando se hace scroll hasta que se alcanza una posición especifica. */
+    position: sticky;
+
+    /* Es la posicion establecida para que el header se mueva o no */
+    top: 0;
+
+    /* Esto permite que el contenido del main se muestre como principal. */
+    z-index: 10;
+}
+
+/*Esta imagen del header es el logo*/
+header img{
+
+    width: 150px;
+    height: 150px;
+    float: center;
+
+
+}
+
+
+
+/*main contiene los estilos para la sesión principal*/
+main{
+
+    /*Este padding agrega espacio interno alrededor del contenido, en este caso 20 px*/
+    padding: 20px;
+
+    /*Permite que el main ocupe todo el espacio disponible entre el header y el fooder. Dando mayor espacio para el main.*/
+    flex: 1;
+
+    /*Este permite que se pueda hacer scroll solo cuando el contenido sobrepasa el espacio visible.*/
+    overflow: auto;
+
+    color: black;
+
+}
+
+/*El .content es una clase que permite alinear todo lo que se encuentra en content*/
+.content {
+
+    /*El text-align se encarga de la alineación del texto, en este caso el texto que se encuentra en el div del html, en este caso centrado*/
+    text-align: center;
+}
+
+section {
+
+    /*Espacio interno entre parrafos*/
+    margin-bottom: 8px;
+    
+    /*Este es para el espacio que se va a tener entre una sesión y otra.*/
+    padding: 20px;
+
+    /* El background-color establece un color de fondo */
+    background: #D9D9D9;
+    
+}
+
+/*el .section-content permite darle estilo al contenido de esta sección*/
+.section-content-one{
+    
+    /*display flex permite que el contenido dentro del body sea flexible permitiendo organizar todo mejor.*/
+    display: flex;
+
+}
+
+/*el .text-column.one permite darle estilo al contenido de esta división*/ 
+.text-one{
+
+    /*Permite que el main ocupe todo el espacio disponible para que la columna de texto sea más ancha*/
+    flex: 1;
+
+    /*Este pone margen al texto, para dar espacio a las imagenes*/
+    margin-right: 20px;
+
+    /*Este alinea el texto justificandolo*/
+    text-align: justify;
+
+}
+
+
+/*Es la clase de imagen que se encuentra en el Inicio, dentro de la clase text-one*/
+.ImagenUno{
+
+    /*width indica el ancho en pixeles que ocupara la imagen en la pantalla*/
+    width: 200px;
+
+    /*height indica la altura en pixeles que ocupara la imagen en la pantalla*/
+    height: 100px;
+
+    /*el float permite mover el elemento dentro del contenedor que se encuentra en este caso que se mueva a la izquierda*/
+    float: right;
+
+    /*El margin left crea una margen entre el elemento y el que lo presede, en este caso la margen es a la derecha*/
+    margin-left: 50px;
+    
+}
+
+/*Es la clase de imagen que se encuentra en el Inicio, dentro de la clase text-one*/
+.ImagenDos{
+
+    /*width indica el ancho en pixeles que ocupara la imagen en la pantalla*/
+    width: 200px;
+
+    /*height indica la altura en pixeles que ocupara la imagen en la pantalla*/
+    height: 100px;
+
+    /*el float permite mover el elemento dentro del contenedor que se encuentra en este caso que se mueva a la izquierda*/
+    float: right;
+
+    /*El margin left crea una margen entre el elemento y el que lo presede, en este caso la margen es a la derecha*/
+    margin-left: 50px;
+}
+
+/*Es la clase de imagen que se encuentra en el Inicio, dentro de la clase text-one*/
+.ImagenTres{
+
+    /*width indica el ancho en pixeles que ocupara la imagen en la pantalla*/
+    width: 200px;
+
+    /*height indica la altura en pixeles que ocupara la imagen en la pantalla*/
+    height: 100px;
+
+    /*el float permite mover el elemento dentro del contenedor que se encuentra en este caso que se mueva a la izquierda*/
+    float: right;
+
+    /*El margin left crea una margen entre el elemento y el que lo presede, en este caso la margen es a la derecha*/
+    margin-left: 50px;
+}
+
+/*Es la clase de imagen que se encuentra en el Inicio, dentro de la clase text-one*/
+.ImagenCuatro{
+
+    /*width indica el ancho en pixeles que ocupara la imagen en la pantalla*/
+    width: 200px;
+
+    /*height indica la altura en pixeles que ocupara la imagen en la pantalla*/
+    height: 100px;
+
+    /*el float permite mover el elemento dentro del contenedor que se encuentra en este caso que se mueva a la izquierda*/
+    float: right;
+
+    /*El margin left crea una margen entre el elemento y el que lo presede, en este caso la margen es a la derecha*/
+    margin-left: 50px;
+}
+
+/*Es la clase de imagen que se encuentra en el Inicio, dentro de la clase text-one*/
+.ImagenCinco{
+
+    /*width indica el ancho en pixeles que ocupara la imagen en la pantalla*/
+    width: 200px;
+
+    /*height indica la altura en pixeles que ocupara la imagen en la pantalla*/
+    height: 100px;
+
+    /*el float permite mover el elemento dentro del contenedor que se encuentra en este caso que se mueva a la izquierda*/
+    float: right;
+
+    /*El margin left crea una margen entre el elemento y el que lo presede, en este caso la margen es a la derecha*/
+    margin-left: 50px;
+}
+
+/*Es la clase de imagen que se encuentra en el Inicio, dentro de la clase text-one*/
+.ImagenSeis{
+
+    /*width indica el ancho en pixeles que ocupara la imagen en la pantalla*/
+    width: 200px;
+
+    /*height indica la altura en pixeles que ocupara la imagen en la pantalla*/
+    height: 100px;
+
+    /*el float permite mover el elemento dentro del contenedor que se encuentra en este caso que se mueva a la izquierda*/
+    float: right;
+
+    /*El margin left crea una margen entre el elemento y el que lo presede, en este caso la margen es a la derecha*/
+    margin-left: 50px;
+}
+
+/*Es la clase de imagen que se encuentra en el Inicio, dentro de la clase text-one*/
+.ImagenSiete{
+
+    /*width indica el ancho en pixeles que ocupara la imagen en la pantalla*/
+    width: 200px;
+
+    /*height indica la altura en pixeles que ocupara la imagen en la pantalla*/
+    height: 100px;
+
+    /*el float permite mover el elemento dentro del contenedor que se encuentra en este caso que se mueva a la izquierda*/
+    float: right;
+
+    /*El margin left crea una margen entre el elemento y el que lo presede, en este caso la margen es a la derecha*/
+    margin-left: 50px;
+}
+
+.Section-Quienes{
+
+    /*Permite que el main ocupe todo el espacio disponible para que la columna de texto sea más ancha*/
+    flex: 1;
+
+    /*Este pone margen al texto, para dar espacio a las imagenes*/
+    margin-right: 20px;
+
+    /*Este alinea el texto justificandolo*/
+    text-align: justify;
+
+}
+
+.Section-Tarifas{
+
+    /*Permite que el main ocupe todo el espacio disponible para que la columna de texto sea más ancha*/
+    flex: 1;
+
+    /*Este pone margen al texto, para dar espacio a las imagenes*/
+    margin-right: 20px;
+
+    /*Este alinea el texto justificandolo*/
+    text-align: justify;
+
+}
+
+/*Es la clase de imagen que se encuentra en tarifas, dentro de la clase sesion-tarifas*/
+.ImagenOcho{
+
+    /*Establece un ancho máximo en porcentaje que puede ocupar el elemento con el fin de mantener la imagen responsiva*/
+    max-width: 50%;
+
+    /*Este establece un alto de forma automatica en relación al aspecto de la imagen*/
+    height: auto;
+
+    /*el float permite mover el elemento dentro del contenedor que se encuentra en este caso que se mueva al centro*/
+    float: center;
+
+    /*El margin left crea una margen entre el elemento y el que lo presede, en este caso la margen es a la derecha*/
+    margin-left: 300px;
+}
+
+.ImagenNueve{
+
+    /*Establece un ancho máximo en porcentaje que puede ocupar el elemento con el fin de mantener la imagen responsiva*/
+    max-width: 50%;
+
+    /*Este establece un alto de forma automatica en relación al aspecto de la imagen*/
+    height: auto;
+
+    /*el float permite mover el elemento dentro del contenedor que se encuentra en este caso que se mueva al centro*/
+    float: center;
+
+    /*El margin left crea una margen entre el elemento y el que lo presede, en este caso la margen es a la derecha*/
+    margin-left: 300px;
+}
+
+h1, h2, h3 {
+    color:black;
+}
+
+
+
+/*El .btn es una clase que permite dar estilo al botón*/
+.button {
+
+    /* El background-color establece un color de fondo del botón*/
+    background-color: #00BFFF;
+
+    /*Este color establece el color del texto del botón*/
+    color: black;
+
+    /*Este padding agrega espacio interno del botón*/
+    padding: 15px 25px;
+
+    /*Este border elimina con el none el borde predeterminado del botón*/
+    border: none;
+
+    /*Este border-radius se encarga de redondear las esquinas del botón*/
+    border-radius: 5px;
+
+    /*Este cursor con el pointer se encarga de cambiar el cursor a una mano cuando se pasa el cursor por encima del botón*/
+    cursor: pointer;
+
+    /*Este font-size se encarga de darle un tamaño al la letra del texto que se encuentra dentro del botón*/
+    font-size: 16px;
+}
+
+
+/*main contiene los estilos para el pie de página*/
+footer {
+
+    /*El text-align se encarga de la alineación del texto del pie de página, en este caso centrado*/
+    text-align: center;
+
+    /*Este padding agrega espacio superior e inferior interno en este caso 10px 0*/
+    padding: 10px 0;
+
+    /* El background-color establece un color de fondo del pie de página*/
+    background-color: #8CCB3E;
+
+    /*Este color establece el color del texto del pie de página*/
+    color: white;
+
+    /*este width indica el ancho que va a ocupar el pie pagina*/
+    width: 100%;
+
+}
+
+/* Estilo Responsivo */
+/* Media es una regla de css que permite aplicar estilos especificos basados en ciertas condiciones como el tamaño de pantalla*/ 
+/* max-width es una condicion a la regla media que indica que solo que aplica si el ancho de la pantalla es de 600px o menos */
+/* Esta regla es ideal para un correcto funcionamiento en celulares y tablets*/
+@media (max-width: 600px) {
+    
+    /* .btn en esta regla si aplica hace que se modifique el estilo del boton*/
+    .btn {
+        
+        /* width hace que el botón ocupe menos del 100% del ancho de su contenedor*/
+        width: 100%;
+        
+        /* font-size hace que el texto dentro del botón oaumente su tamaño para mejor legibilidad*/
+        font-size: 18px;
+    }
+
+    .section-content{
+
+        /* Cambia la dirección en vertical en pantallas pequeñas permitiendo que la imagen se ubique debajo del texto*/
+        flex-direction: column;
+
+        /* Centra tanto en vertical el texto y la imagen*/
+        align-items: center;
+    }
+
+    .text-column.one{
+
+        /*Retira las margenes para las pantallas pequeñas*/
+        margin-right: 0;
+
+        /*Alinea el texto en pantallas pequeñas*/
+        text-align: left;
+    }
+
+    .ImagenUno{
+
+        /*Permite que la imagen ocupe el 100% del espacio disponible en pantallas pequeñas*/
+        max-width: 100%;
+    }
+
+    .ImagenDos{
+
+        /*Permite que la imagen ocupe el 100% del espacio disponible en pantallas pequeñas*/
+        max-width: 100%;
+    }
+
+    .ImagenTres{
+
+        /*Permite que la imagen ocupe el 100% del espacio disponible en pantallas pequeñas*/
+        max-width: 100%;
+    }
+
+    .ImagenCuatro{
+
+        /*Permite que la imagen ocupe el 100% del espacio disponible en pantallas pequeñas*/
+        max-width: 100%;
+    }
+
+    .ImagenCinco{
+
+        /*Permite que la imagen ocupe el 100% del espacio disponible en pantallas pequeñas*/
+        max-width: 100%;
+    }
+
+    .ImagenSeis{
+
+        /*Permite que la imagen ocupe el 100% del espacio disponible en pantallas pequeñas*/
+        max-width: 100%;
+    }
+
+    .ImagenSiete{
+
+        /*Permite que la imagen ocupe el 100% del espacio disponible en pantallas pequeñas*/
+        max-width: 100%;
+    }
+
+    .ImagenOcho{
+
+        /*Permite que la imagen ocupe el 100% del espacio disponible en pantallas pequeñas*/
+        max-width: 100%;
+    }
+
+}
