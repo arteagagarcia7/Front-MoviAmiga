@@ -1,49 +1,100 @@
 <template>
   <div class="container my-4">
-    <h2 class="mb-4">Paraderos por Medio de Transporte</h2>
+    <!-- Título principal -->
+    <h2 class="mb-4">Buses del Sistema de Transporte Público en Bogotá</h2>
 
-    <!-- Tabla horizontal con medios de transporte -->
+    <!-- Div class container es una clase de Bootstrap que permite que todo lo que va a tener se vea centrado-->
+    <div class="container">
+      <!--Este div class form-container es el que contiene el formulario-->
+      <div class="form-container">
+        <!--El form es el atributo que indica que es un formulario y el id contacto-form es como se va a identificar este formulario en el código-->
+        <form id="contactenos-form">
+          <!-- Este div class mb-3 es una clase de bootstrap que permite que el texto y cada uno de los elementos tengan espacio entre ellos y no se peguen -->
+          <div class="mb-3 text-center">
+            <!-- Aquí se encuentran los otros aspectos del formulario para el POST y el PUT -->
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre del Paradero</label>
+              <input type="text" class="form-control" id="nombre" v-model="nuevoParadero.nombre" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="inclusion_discapacitados" class="form-label">Tiene Inclusión para Personas Discapacitadas</label>
+              <select class="form-control" id="gps" v-model="nuevoParadero.inclusion_discapacitados" required>
+                <option :value="true">Sí</option>
+                <option :value="false">No</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="punto_asignado" class="form-label">Dirección</label>
+              <input type="text" class="form-control" id="punto_asignado" v-model="nuevoParadero.punto_asignado" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="capacidad_total_buses" class="form-label">Capacidad Total de Buses</label>
+              <input type="number" class="form-control" id="capacidad_total_buses" v-model="nuevoParadero.capacidad_total_buses" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="tipo_transporte" class="form-label">Tipo de Transporte Urbano:</label>
+              <input type="text" class="form-control" id="tipo_transporte" v-model="nuevoParadero.tipo_transporte" required>
+            </div>
+
+            <!-- Botones para agregar un paradero y cuando se seleccione el editar de abajo trae el id para actualizar los datos y con el ID se activa el boton de actualizar -->
+            <div>
+              <button type="button" class="btn btn-primary me-2" @click="agregarParadero" v-if="!editandoParaderoId">Agregar</button>
+              <button type="button" class="btn btn-success" @click="actualizarParadero" v-else>Actualizar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Contenedor responsivo para que la tabla se vea bien en dispositivos pequeños -->
     <div class="table-responsive">
-      <table class="table table-bordered">
+      <!-- Tabla principal que lista todos los paraderos -->
+      <table class="table table-bordered table-hover align-middle text-center">
+        <!--
+          - table-bordered: agrega bordes entre celdas
+          - table-hover: resalta fila al pasar el mouse
+          - align-middle: centra el contenido verticalmente
+          - text-center: centra horizontalmente
+        -->
         <thead class="table-light">
           <tr>
-            <th>Medio de Transporte</th>
-            <th>Paraderos (click para desplegar)</th>
+            <th>ID</th> <!-- ID del paradero -->
+            <th>Nombre</th> <!-- Nombre del paradero -->
+            <th>Tiene Inclusión para Personas Discapacitadas</th> <!-- Si tiene o no inclusión de personas discapacitadas -->
+            <th>Dirección</th> <!-- punto asingado del paradero -->
+            <th>Capacidad Total de Buses</th> <!-- Capacidad total de buses que se pueden estacionar ahí -->
+            <th>Tipo de Transporte</th> <!-- Tipo de transporte que recibe el paradero -->
+            <th>Acciones</th> <!-- Nuevas acciones: Editar / Eliminar -->
+            <!-- Columnas condicionales según tipo de portal -->
+            <th v-if="arrayParaderos.some(b => b.tipo_transporte === 'Transmilenio')">Biarticulado</th>
+            <th v-if="arrayParaderos.some(b => b.tipo_transporte === 'SITP')">Otros Buses</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- Iteramos o recorremos los datos de medios de transporte -->
-          <tr v-for="medio in mediosTransporte" :key="medio.id">
-            <!-- Nombre del tipo de transporte-->
-            <td>
-              <button 
-                class="btn btn-link p-0" 
-                @click="toggleMedio(medio.id)"
-                style="font-weight: bold; font-size: 1.1em;"
-                :aria-expanded="isMedioOpen(medio.id)"
-                :aria-controls="'paraderos-' + medio.id"
-              >
-                {{ medio.nombre }}
-              </button>
-            </td>
 
-            <!-- Aquí se despliegan los paraderos si el tipo de transporte está abierto -->
+        <tbody>
+          <!-- Iteramos sobre cada paradero recibido desde el backend -->
+          <tr v-for="paradero in arrayParaderos" :key="paradero.id">
+            <td>{{ paradero.id }}</td>
+            <td>{{ paradero.nombre }}</td>
+            <td>{{ paradero.inclusion_discapacitados ? 'Sí' : 'No' }}</td> <!-- GPS traducido a texto ya que el dato es booleano -->
+            <td>{{ paradero.punto_asignado }}</td>
+            <td>{{ paradero.capacidad_total_buses }}</td>
+            <td>{{ paradero.tipo_transporte }}</td>
+            <!-- Botones para editar y eliminar -->
             <td>
-              <div v-if="isMedioOpen(medio.id)" :id="'paraderos-' + medio.id">
-                <ul class="list-group list-group-flush">
-                  <!-- Lista de paraderos por tipo de transporte -->
-                  <li v-for="paradero in medio.paraderos" :key="paradero.id" class="list-group-item">
-                    <!-- Se muestra nombre y ubicación si está disponible, falta los datos de inclusión como booleanos de la tabla del back paraderos -->
-                    <strong>{{ paradero.nombre }}</strong>
-                    <br>
-                    <small v-if="paradero.ubicacion">Ubicación: {{ paradero.ubicacion }}</small>
-                  </li>
-                  <li v-if="medio.paraderos.length === 0" class="list-group-item text-muted text-center">
-                    No hay paraderos disponibles
-                  </li>
-                </ul>
-              </div>
+              <!-- Botón que llena el formulario con los datos del paradero para editar -->
+              <button class="btn btn-sm btn-warning me-2" @click="editarParadero(paradero)">Editar</button>
+              <!-- Botón para eliminar el paradero -->
+              <button class="btn btn-sm btn-danger" @click="eliminarParadero(paradero.id)">Eliminar</button>
             </td>
+            <!-- Si el paradero es de tipo Transmilenio, se va a mostrar una marca -->
+            <td v-if="paradero.tipo_transporte === 'Transmilenio'">✔️</td>
+            <!-- Si es SITP u otro tipo -->
+            <td v-if="paradero.tipo_transporte === 'SITP'">✔️</td>
           </tr>
         </tbody>
       </table>
@@ -53,131 +104,102 @@
 
 <script>
 export default {
-  name: "Paraderos",
   data() {
     return {
-      // Aqui se hace un prototipo de datos simulados de tipos de transporte y sus paraderos (para reemplazar con las tablas y datos del back)
-      mediosTransporte: [
-        {
-          id: 1,
-          nombre: "Transmilenio",
-          paraderos: [
-            {
-                id: 1, 
-                nombre: "Portal Norte", 
-                ubicacion: "Autopista Norte con Calle 170",
-                inclusión_discapacitados: "Si",
-                inclusión_extranjeros: "Si",
-            },
-            { 
-                id: 2, 
-                nombre: "Estación Calle 100", 
-                ubicacion: "Autopista Norte con Calle 100",
-                inclusión_discapacitados: "No",
-                inclusión_extranjeros: "No",
-            },
-          ],
-        },
-        {
-          id: 2,
-          nombre: "Alimentadores",
-          paraderos: [
-            { 
-                id: 3, 
-                nombre: "Plataforma 1", 
-                ubicacion: "Calle 80 con Carrera 110",
-                inclusión_discapacitados: "Si",
-                inclusión_extranjeros: "No", 
-            },
-          ],
-        },
-        {
-          id: 3,
-          nombre: "Transmicable",
-          paraderos: [
-            { 
-                id: 4, 
-                nombre: "Estación Mirador", 
-                ubicacion: "Ciudad Bolívar",
-                inclusión_discapacitados: "Si",
-                inclusión_extranjeros: "Si",
-            },
-          ],
-        },
-        {
-          id: 4,
-          nombre: "SITP",
-          paraderos: [
-            { 
-                id: 5, 
-                nombre: "Betania", 
-                ubicacion: "Cl 53 sur - Kra 86C",
-                inclusión_discapacitados: "Si",
-                inclusión_extranjeros: "No",
-            },
-          ],
-        },
-        {
-          id: 5,
-          nombre: "Complementario",
-          paraderos: [
-            { 
-                id: 6, 
-                nombre: "El Jardin", 
-                ubicacion: "Kr 80I - Cl 87B Sur",
-                inclusión_discapacitados: "No",
-                inclusión_extranjeros: "No",
-            },
-          ],
-        },
-        {
-          id: 6,
-          nombre: "Especial",
-          paraderos: [
-            { 
-                id: 6, 
-                nombre: "Bella Flor",
-                ubicacion: "kr 27B - Cl 71T Sur",
-                inclusión_discapacitados: "No",
-                inclusión_extranjeros: "No",
-            },
-          ],
-        },
-      ],
-      mediosAbiertos: [], // Controla qué tipo de transporte tienen su lista desplegada y así mismo se muestra la información
+      // Aquí se almacenará el arreglo de paradero traído desde la API
+      arrayParaderos: [],
+      // Objeto que almacena los datos del nuevo paradero a registrar o editar
+      nuevoParadero: {
+        nombre: '',
+        inclusion_discapacitados: '',
+        punto_asignado: '',
+        capacidad_total_buses: '',
+        tipo_transporte: ''
+      },
+      // Este ID se usará para identificar si se está editando un paradero y que se active el boton de actualizar
+      editandoParaderoId: null
     };
   },
   methods: {
-    /**
-     * Abre o cierra la visualización de paraderos para un medio
-     * @param {number} id - ID del medio
-     */
-    toggleMedio(id) {
-      if (this.mediosAbiertos.includes(id)) {
-        this.mediosAbiertos = this.mediosAbiertos.filter((m) => m !== id);
-      } else {
-        this.mediosAbiertos.push(id);
+    // Método que se ejecuta para obtener los datos de los paradero desde el backend usando GET
+    ListarParaderos() {
+      this.$axios.get('paraderos/')
+        .then(response => {
+          this.arrayParaderos = response.data;
+          console.log('Datos de paraderos recibidos:', this.arrayParaderos);
+        })
+        .catch(error => {
+          console.error('Error al obtener los paraderos:', error);
+        });
+    },
+    // Método para agregar un nuevo paradero al backend usando POST
+    agregarParadero() {
+      this.$axios.post('paraderos/', this.nuevoParadero)
+        .then(response => {
+          console.log('Paradero agregado correctamente:', response.data);
+          this.ListarParaderos();
+          this.resetFormulario();
+        })
+        .catch(error => {
+          console.error('Error al agregar el paradero:', error);
+        });
+    },
+    // Método que se activa cuando se da clic en el boton de editar y es para traer los datos de un paradero y colocarlos en el formulario para poderlos editar
+    editarParadero(paradero) {
+      this.nuevoParadero = { ...paradero }; // Copia todos los datos del paradero del ID seleccionado
+      this.editandoParaderoId = paradero.id; // Guarda el ID actual para usar en PUT
+    },
+    // Método para enviar la actualización al backend haciendo uso del PUT
+    actualizarParadero() {
+      this.$axios.put('paraderos/' + this.editandoParaderoId + '/', this.nuevoParadero)
+        .then(response => {
+          console.log('Paradero actualizado correctamente:', response.data);
+          this.ListarParaderos();
+          this.resetFormulario();
+        })
+        .catch(error => {
+          console.error('Error al actualizar el paradero:', error);
+        });
+    },
+    // Método para eliminar un paradero específico haciendo uso de DELETE
+    eliminarParadero(id) {
+      if (confirm('¿Estás seguro de que deseas eliminar este paradero?')) {
+        this.$axios.delete('paraderos/' + id + '/')
+          .then(() => {
+            console.log('Paradero eliminado');
+            this.ListarParaderos();
+          })
+          .catch(error => {
+            console.error('Error al eliminar el paradero:', error);
+          });
       }
     },
-
-    /**
-     * Verifica si el tipo de transporte está abierto
-     * @param {number} id
-     * @returns {boolean}
-     */
-    isMedioOpen(id) {
-      return this.mediosAbiertos.includes(id);
-    },
+    // Método que reinicia el formulario y sale del modo edición
+    resetFormulario() {
+      this.nuevoParadero = {
+        nombre: '',
+        inclusion_discapacitados: '',
+        punto_asignado: '',
+        capacidad_total_buses: '',
+        tipo_transporte: ''
+      };
+      this.editandoParaderoId = null;
+    }
   },
+  created() {
+    this.ListarParaderos();
+  }
 };
 </script>
 
 <style scoped>
+/* Estilo opcional si después usas botones con apariencia de enlace */
 .btn-link {
   color: #198754; /* Verde Bootstrap */
-  text-decoration: none;
   cursor: pointer;
+  text-decoration: none;
 }
+
 .btn-link:hover {
   text-decoration: underline;
 }

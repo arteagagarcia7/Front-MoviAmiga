@@ -72,6 +72,16 @@ const router = createRouter({
           path: '/',
           name: 'cerrar-sesion',
           component: () => import('@/views/index.vue') // Cerrar Sesión
+        },
+        {
+          path: 'Portales',
+          name: 'Portales',
+          component: () => import('@/views/Portales.vue') // Vista de portales
+        },
+        {
+          path: 'Buses',
+          name: 'Buses',
+          component: () => import('@/views/Buses.vue') // Vista de portales
         }
       ]
     },
