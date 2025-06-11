@@ -13,8 +13,8 @@
           <div class="mb-3 text-center">
             <!-- Aquí se encuentran los otros aspectos del formulario para el POST y el PUT -->
             <div class="mb-3">
-              <label for="codigo_bus" class="form-label">Codigo del Bus</label>
-              <input type="number" class="form-control" id="codigo_bus" v-model="nuevoBus.codigo_bus" required>
+              <label for="codigo_bus" class="form-label">Código del Bus (Ej: ABC123)</label>
+              <input type="text" class="form-control" id="codigo_bus" v-model="nuevoBus.codigo_bus" required pattern="[A-Z]{3}[0-9]{3}" title="Debe tener el formato ABC123 (3 letras seguidas de 3 números)">
             </div>
 
             <div class="mb-3">
@@ -146,7 +146,7 @@ export default {
     },
     // Método que se activa cuando se da clic en el boton de editar y es para traer los datos de un bus y colocarlos en el formulario para poderlos editar
     editarBus(bus) {
-      this.nuevoBus = { ...bus }; // Copi todos los datos del bus del ID seleccionado
+      this.nuevoBus = { ...bus }; // Copia todos los datos del bus del ID seleccionado
       this.editandoBusId = bus.id;   // Guarda el ID actual para usar en PUT
     },
     // Método para enviar la actualización al backend haciendo uso del PUT

@@ -193,7 +193,7 @@ export default {
 </script>
 
 <style scoped>
-/* Estilo opcional si después usas botones con apariencia de enlace */
+/* Estilo opcional si después se usa botones con apariencia de enlace */
 .btn-link {
   color: #198754; /* Verde Bootstrap */
   cursor: pointer;

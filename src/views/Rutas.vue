@@ -1,222 +1,234 @@
 <template>
-    <div class="container my-4">
-        <h2 class="mb-4">Medios de Transporte y Rutas</h2>
+  <div class="container my-4">
+    <!-- Título principal -->
+    <h2 class="mb-4">Rutas Sistema de Transporte Público en Bogotá</h2>
 
-        <!-- Tabla horizontal con medios de transporte -->
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead class="table-light">
-                    <tr>
-                        <th>Medio de Transporte</th>
-                        <th>Rutas (click para desplegar)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <!-- Iteramos o recorremos los datos de los medios de transporte que se tienen -->
-                <tr v-for="medio in mediosTransporte" :key="medio.id">
-                <!-- Nombre del medio del transporte -->
-                <td>
-                    <button 
-                        class="btn btn-link p-0" 
-                        @click="toggleMedio(medio.id)"
-                        style="font-weight: bold; font-size: 1.1em;"
-                        :aria-expanded="isMedioOpen(medio.id)"
-                        :aria-controls="'rutas-'+medio.id"
-                    >
-                        {{ medio.nombre }}
-                    </button>
-                </td>
+    <!-- Div class container es una clase de Bootstrap que permite que todo lo que va a tener se vea centrado-->
+    <div class="container">
+      <!--Este div class form-container es el que contiene el formulario-->
+      <div class="form-container">
+        <!--El form es el atributo que indica que es un formulario y el id contacto-form es como se va a identificar este formulario en el código-->
+        <form id="contactenos-form">
+          <!-- Este div class mb-3 es una clase de bootstrap que permite que el texto y cada uno de los elementos tengan espacio entre ellos y no se peguen -->
+          <div class="mb-3 text-center">
+            <!-- Aquí se encuentran los otros aspectos del formulario para el POST y el PUT -->
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre de la Ruta</label>
+              <input type="text" class="form-control" id="nombre" v-model="nuevaRuta.nombre" required>
+            </div>
 
-                <!-- Aquí se despliegan las rutas si el medio de transporte está abierto -->
-                <td>
-                    <div v-if="isMedioOpen(medio.id)" :id="'rutas-'+medio.id">
-                        <table class="table table-sm table-striped mb-0">
-                        <thead>
-                            <tr>
-                                <th>Ruta</th>
-                                <th></th>
-                                <th v-if="medio.nombre === 'Transmilenio'">Zona Asignada</th>
-                                <th v-if="medio.nombre === 'Transmilenio'">Portal Origen</th>
-                                <th v-if="medio.nombre === 'Transmilenio'">Portal Destino</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="ruta in medio.rutas" :key="ruta.id">
-                                <td>{{ ruta.nombre }}</td>
-                                <td>{{ ruta.planRuta }}</td>
-                                <td v-if="medio.nombre === 'Transmilenio'">{{ ruta.zonaAsignada }}</td>
-                                <td v-if="medio.nombre === 'Transmilenio'">{{ ruta.portalOrigen }}</td>
-                                <td v-if="medio.nombre === 'Transmilenio'">{{ ruta.portalDestino }}</td>
-                            </tr>
-                            <tr v-if="medio.rutas.length === 0">
-                                <td colspan="4" class="text-center text-muted">No hay rutas disponibles</td>
-                            </tr>
-                        </tbody>
-                        </table>
-                    </div>
-                </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+            <div class="mb-3">
+              <label for="zona_asignada" class="form-label">Zona Asignada</label>
+              <input type="text" class="form-control" id="zona_asignada" v-model="nuevaRuta.zona_asignada" required>
+            </div>
+            
+            <div class="mb-3">
+              <label for="horario_inicio" class="form-label">Horario de Inicio</label>
+              <input type="datetime-local" class="form-control" id="horario_inicio" v-model="nuevaRuta.horario_inicio" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="horario_fin" class="form-label">Horario de Cierre</label>
+              <input type="datetime-local" class="form-control" id="horario_fin" v-model="nuevaRuta.horario_fin" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="bus" class="form-label">Bus asignado</label>
+                <select class="form-select" id="bus" v-model="nuevaRuta.buses" required>
+                  <option value="" disabled>Seleccione un bus</option>
+                  <option v-for="bus in arrayBuses" :key="bus.id" :value="bus.codigo_bus">
+                    {{ bus.codigo_bus }}
+                  </option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+              <label for="portal_origen" class="form-label">Selecciona tu Programa de Ruta</label>
+              <select class="form-select" id="programas_Rutas" v-model="nuevaRuta.programas_Rutas" required>
+                <option value="" disabled>Selecciona un programa de ruta</option>
+                <option v-for="programa in arrayProgramasRutas" :key="programa.id" :value="programa.id">
+                  De {{ programa.portal_origen_nombre }} a {{ programa.portal_final_nombre }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Botones para agregar una ruta y cuando se seleccione el editar de abajo trae el id para actualizar los datos y con el ID se activa el boton de actualizar -->
+            <div>
+              <button type="button" class="btn btn-primary me-2" @click="agregarRuta" v-if="!editandoRutaId">Agregar</button>
+              <button type="button" class="btn btn-success" @click="actualizarRuta" v-else>Actualizar</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+
+    <!-- Contenedor responsivo para que la tabla se vea bien en dispositivos pequeños -->
+    <div class="table-responsive">
+      <!-- Tabla principal que lista todos los paraderos -->
+      <table class="table table-bordered table-hover align-middle text-center">
+        <!--
+          - table-bordered: agrega bordes entre celdas
+          - table-hover: resalta fila al pasar el mouse
+          - align-middle: centra el contenido verticalmente
+          - text-center: centra horizontalmente
+        -->
+        <thead class="table-light">
+          <tr>
+            <th>Id</th> <!-- ID de la ruta -->
+            <th>Nombre</th> <!-- Nombre de la ruta -->
+            <th>Zona Asignada</th> <!-- zona -->
+            <th>Horario de Inicio</th> <!-- horario de inicio -->
+            <th>Horario de Cierre</th> <!-- horario de fin -->
+            <th>Bus Asignado</th> <!-- Mostrar el nombre del bus asignado -->
+            <th>Acciones</th> 
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- Iteramos sobre cada ruta recibido desde el backend -->
+          <tr v-for="ruta in arrayRutas" :key="ruta.id">
+            <td>{{ ruta.id }}</td>
+            <td>{{ ruta.nombre }}</td>
+            <td>{{ ruta.zona_asignada }}</td>
+            <td>{{ ruta.horario_inicio }}</td>
+            <td>{{ ruta.horario_fin }}</td>
+            <td>{{ ruta.codigo_bus || 'Sin bus asignado' }}</td>
+            <!-- Botones para editar y eliminar -->
+            <td>
+              <!-- Botón que llena el formulario con los datos de la ruta para editar -->
+              <button class="btn btn-sm btn-warning me-2" @click="editarRuta(ruta)">Editar</button>
+              <!-- Botón para eliminar la ruta -->
+              <button class="btn btn-sm btn-danger" @click="eliminarRuta(ruta.id)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "Rutas",
   data() {
     return {
-      // Aquí definimos los medios de transporte con rutas para simular su funcionalidad con los datos de la tabla del modelo E-R
-      mediosTransporte: [
-        {
-          id: 1,
-          nombre: "Transmilenio",
-          rutas: [
-            {
-              id: 1,
-              nombre: "J23",
-              zonaAsignada: "Sur - centro",
-              horario: "4:00 - 23:00",
-              portalOrigen: "Portal Americas",
-              portalDestino: "Las Aguas",
-            },
-            {
-              id: 2,
-              nombre: "D22",
-              zonaAsignada: "Sur - Noroccidente",
-              horario: "8:00 - 21:00",
-              portalOrigen: "Portal Sur",
-              portalDestino: "Portal 80",
-            },
-          ],
-        },
-        {
-          id: 2,
-          nombre: "Alimentadores",
-          rutas: [
-            {
-              id: 1,
-              nombre: "Bosa Libertad",
-              zonaAsignada: "La libertad",
-              horario: "4:00 - 23:00",
-              portalOrigen: "Portal Americas",
-              portalDestino: "Portal Americas",
-            },
-            {
-              id: 2,
-              nombre: "Roma",
-              zonaAsignada: "Villa Anita - Roma",
-              horario: "4:00 - 23:00",
-              portalOrigen: "Portal Americas",
-              portalDestino: "Portal Americas",
-            },
-          ],
-        },
-        {
-          id: 3,
-          nombre: "SITP",
-          rutas: [
-            {
-              id: 1,
-              nombre: "142",
-              zonaAsignada: "Teusaquillo-Engativa",
-              horario: "4:00 - 22:00",
-              portalOrigen: "La Esperanza",
-              portalDestino: "San Martin",
-            },
-            {
-              id: 2,
-              nombre: "927",
-              zonaAsignada: "Bosa San José - Aeropuerto",
-              horario: "3:30 - 22:30",
-              portalOrigen: "Bosa San José",
-              portalDestino: "Aeropuerto El Dorado",
-            },
-          ],
-        },
-        {
-          id: 4,
-          nombre: "Complementario",
-          rutas: [
-            {
-              id: 1,
-              nombre: "14-1",
-              zonaAsignada: "Las Cruces",
-              horario: "4:00 - 22:00",
-              portalOrigen: "Estación Bicentenario",
-              portalDestino: "Estación Bicentenario",
-            },
-            {
-              id: 2,
-              nombre: "19-11",
-              zonaAsignada: "Canódromo",
-              horario: "4:30 - 21:30",
-              portalOrigen: "Estación Prado",
-              portalDestino: "Estación Prado",
-            },
-          ],
-        },
-        {
-          id: 5,
-          nombre: "Especial",
-          rutas: [
-            {
-              id: 1,
-              nombre: "10-12",
-              zonaAsignada: "Mochuelo Bajo - Paraíso",
-              horario: "5:00 - 22:00",
-              portalOrigen: "Laguinitas",
-              portalDestino: "IED Paraíso Mirador",
-            },
-            {
-              id: 2,
-              nombre: "18-7",
-              zonaAsignada: "Soratama",
-              horario: "5:00 - 21:00",
-              portalOrigen: "Santa Teresa",
-              portalDestino: "Santa Teresa",
-            },
-          ],
-        },
-      ],
-
-      // Sirve para controlar qué medio está desplegado
-      mediosAbiertos: [], // Array con ids de medios abiertos
+      arrayRutas: [], // Aquí se almacenará el arreglo de rutas traído desde la API
+      arrayBuses: [], // Aquí se almacenará el arreglo de buses traído desde la API 
+      arrayProgramasRutas: [], // Aquí se almacenará el arreglo de programas_rutas traído desde la API
+      nuevaRuta: {
+        nombre: '',
+        zona_asignada: '',
+        horario_inicio: '',
+        horario_fin: '',
+        buses: '',
+        programas_Rutas: ''
+      },
+      editandoRutaId: null // Este ID se usará para identificar si se está editando una ruta
     };
   },
-
   methods: {
-    /**
-     * Cambia el estado del medio de transporte (abre o cierra las rutas)
-     * @param {number} id - Id del medio de transporte
-     */
-    toggleMedio(id) {
-      if (this.mediosAbiertos.includes(id)) {
-        // Si está abierto, se cierra (se quita del array)
-        this.mediosAbiertos = this.mediosAbiertos.filter((mId) => mId !== id);
-      } else {
-        // Si está cerrado, se abre (se agrega el array)
-        this.mediosAbiertos.push(id);
+    ListarRutas() {
+      this.$axios.get('rutas/')
+        .then(response => {
+          this.arrayRutas = response.data;
+          console.log('Datos de Rutas recibidos:', this.arrayRutas);
+        })
+        .catch(error => {
+          console.error('Error al obtener las rutas:', error);
+        });
+    },
+    ListarBuses() {
+      this.$axios.get('buses/')
+        .then(response => {
+          this.arrayBuses = response.data;
+          console.log('Datos de Buses recibidos:', this.arrayBuses);
+        })
+        .catch(error => {
+          console.error('Error al obtener los buses:', error);
+        });
+    },
+    ListarProgramasRutas() {
+      this.$axios.get('programas_rutas/')
+        .then(response => {
+          this.arrayProgramasRutas = response.data;
+          console.log('Programas de Rutas recibidos:', this.arrayProgramasRutas);
+        })
+        .catch(error => {
+          console.error('Error al obtener programas de rutas:', error);
+        });
+    },
+    agregarRuta() {
+      this.$axios.post('rutas/', this.nuevaRuta)
+        .then(response => {
+          console.log('Ruta agregada correctamente:', response.data);
+          this.ListarRutas();
+          this.resetFormulario();
+        })
+        .catch(error => {
+          if (error.response) {
+            console.error('Detalles del error:', error.response.data);
+          } else {
+            console.error('Error desconocido al agregar la ruta:', error);
+          }
+        });
+    },
+    editarRuta(ruta) {
+      this.nuevaRuta = {
+        nombre: ruta.nombre,
+        zona_asignada: ruta.zona_asignada,
+        horario_inicio: ruta.horario_inicio,
+        horario_fin: ruta.horario_fin,
+        buses: ruta.buses || '',
+        programas_Rutas: '' 
+      };
+      this.editandoRutaId = ruta.id;
+    },
+    actualizarRuta() {
+      this.$axios.put('rutas/' + this.editandoRutaId + '/', this.nuevaRuta)
+        .then(response => {
+          console.log('Ruta actualizada correctamente:', response.data);
+          this.ListarRutas();
+          this.resetFormulario();
+        })
+        .catch(error => {
+          console.error('Error al actualizar la ruta:', error);
+        });
+    },
+    eliminarRuta(id) {
+      if (confirm('¿Estás seguro de que deseas eliminar esta ruta?')) {
+        this.$axios.delete('rutas/' + id + '/')
+          .then(() => {
+            console.log('Ruta eliminada');
+            this.ListarRutas();
+          })
+          .catch(error => {
+            console.error('Error al eliminar la ruta:', error);
+          });
       }
     },
-
-    /**
-     * Sirve para verifica si un medio de transporte está abierto para mostrar sus rutas
-     * @param {number} id - Id del medio de transporte
-     * @returns {boolean} se usa un boolean que arroja true si está abierto y false si está cerrado
-     */
-    isMedioOpen(id) {
-      return this.mediosAbiertos.includes(id);
-    },
+    resetFormulario() {
+      this.nuevaRuta = {
+        nombre: '',
+        zona_asignada: '',
+        horario_inicio: '',
+        horario_fin: '',
+        buses: '',
+        programas_Rutas: ''
+      };
+      this.editandoRutaId = null;
+    }
   },
+  created() {
+    this.ListarRutas();
+    this.ListarBuses();
+    this.ListarProgramasRutas();
+  }
 };
 </script>
 
 <style scoped>
-/* Estilo para el botón del medio de transporte para que parezca enlace */
+/* Estilo opcional si después se usa botones con apariencia de enlace */
 .btn-link {
-  color: #198754; /* Color verde bootstrap */
+  color: #198754; /* Verde Bootstrap */
   cursor: pointer;
   text-decoration: none;
 }

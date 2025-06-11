@@ -21,7 +21,7 @@
       <!-- Campo para ingresar el número de la tarjeta registrada -->
       <div class="mb-3">
         <label for="tarjeta" class="form-label">Número de tarjeta</label>
-        <!-- Este número se debe valdiar con los datos ingresados en el back en la tabla tarjeta usuario -->
+        <!-- Este número se debe valdiar con los datos ingresados en el back en la tabla tarjeta usuario falta unir con el back y hacer el API-->
         <input
           type="text"
           id="tarjeta"

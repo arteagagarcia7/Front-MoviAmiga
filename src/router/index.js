@@ -59,9 +59,9 @@ const router = createRouter({
           component: () => import('@/views/CalcularRuta.vue') // Página para entrar a calcular la ruta
         },
         {
-          path: 'recargas',
-          name: 'recargas',
-          component: () => import('@/views/Recargas.vue') // Página para realizar recargas
+          path: 'recarga',
+          name: 'recarga',
+          component: () => import('@/views/Recarga.vue') // Página para realizar recargas
         },
         {
           path: 'perfil',
@@ -81,7 +81,22 @@ const router = createRouter({
         {
           path: 'Buses',
           name: 'Buses',
-          component: () => import('@/views/Buses.vue') // Vista de portales
+          component: () => import('@/views/Buses.vue') // Vista de Buses
+        },
+        {
+          path: 'Tarjeta_Usuario',
+          name: 'Tarjeta_Usuario',
+          component: () => import('@/views/Tarjeta_Usuario.vue') // Vista de Tarjeta
+        },
+        {
+          path: 'Ruta_Favorita',
+          name: 'Ruta_Favorita',
+          component: () => import('@/views/Ruta_Favorita.vue') // Vista de Ruta Favorita
+        },
+        {
+          path: 'Programas_Rutas',
+          name: 'Programas_Rutas',
+          component: () => import('@/views/Programas_Rutas.vue') // Vista de programas de ruta
         }
       ]
     },

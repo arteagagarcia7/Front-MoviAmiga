@@ -31,8 +31,6 @@
                 <router-link class="nav-link" :class="{ active: $route.path === '/quienes-somos' }" to="/quienes-somos" @click="closeMenu">¿Quiénes Somos?</router-link>
                 <router-link class="nav-link" :class="{ active: $route.path === '/tarifas' }" to="/tarifas" @click="closeMenu">Tarifas</router-link>
                 <router-link class="nav-link" :class="{ active: $route.path === '/contactenos' }" to="/contactenos" @click="closeMenu">Contáctenos</router-link>
-                <router-link class="nav-link" :class="{ active: $route.path === '/Portales' }" to="/Portales" @click="closeMenu">Portales</router-link>
-                <router-link class="nav-link" :class="{ active: $route.path === '/Buses' }" to="/Buses" @click="closeMenu">Buses</router-link>
                 <router-link class="nav-link" :class="{ active: $route.path === '/inicio-sesion' }" to="/inicio-sesion" @click="closeMenu">Inicio de Sesión</router-link>
               </template>
               
@@ -43,12 +41,16 @@
                 <router-link class="nav-link" :class="{ active: $route.path === '/quienes-somos' }" to="/quienes-somos" @click="closeMenu">¿Quiénes Somos?</router-link>
                 <router-link class="nav-link" :class="{ active: $route.path === '/tarifas' }" to="/tarifas" @click="closeMenu">Tarifas</router-link>
                 <router-link class="nav-link" :class="{ active: $route.path === '/contactenos' }" to="/contactenos" @click="closeMenu">Contáctenos</router-link>
+                <router-link class="nav-link" :class="{ active: $route.path === '/Tarjeta_Usuario' }" to="/Tarjeta_Usuario" @click="closeMenu">Tarjetas</router-link>
+                <router-link class="nav-link" :class="{ active: $route.path === '/Recarga' }" to="/Recarga" @click="closeMenu">Recarga</router-link>
+                <router-link class="nav-link" :class="{ active: $route.path === '/Ruta_Favorita' }" to="/Ruta_Favorita" @click="closeMenu">Ruta Favorita</router-link>
                 <router-link class="nav-link" :class="{ active: $route.path === '/rutas' }" to="/rutas" @click="closeMenu">Rutas</router-link>
-                <router-link class="nav-link" :class="{ active: $route.path === '/paraderos' }" to="/paraderos" @click="closeMenu">paraderos</router-link>
+                <router-link class="nav-link" :class="{ active: $route.path === '/programas_rutas' }" to="/programas_rutas" @click="closeMenu">Programa de Rutas</router-link>
+                <router-link class="nav-link" :class="{ active: $route.path === '/Portales' }" to="/Portales" @click="closeMenu">Portales</router-link>
+                <router-link class="nav-link" :class="{ active: $route.path === '/Buses' }" to="/Buses" @click="closeMenu">Buses</router-link>
+                <router-link class="nav-link" :class="{ active: $route.path === '/paraderos' }" to="/paraderos" @click="closeMenu">Paraderos</router-link>
                 <router-link class="nav-link" :class="{ active: $route.path === '/carlcular-ruta' }" to="/calcular-ruta" @click="closeMenu">Calcula Tu Ruta</router-link>
-                <router-link class="nav-link" :class="{ active: $route.path === '/recargas' }" to="/recargas" @click="closeMenu">Recargas</router-link>
                 <router-link class="nav-link" :class="{ active: $route.path === '/perfil' }" to="/perfil" @click="closeMenu">Tu Perfil</router-link>
-
                 <router-link class="nav-link" :class="{ active: $route.path === '/' }" to="/" @click="cerrarSesion">Cerrar Sesión</router-link>
                 
               </template>
