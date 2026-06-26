@@ -1,4 +1,4 @@
-# MoviAmiga — Frontend 🚌
+# MoviAmiga — Frontend
 
 **Web application that helps new users and visitors navigate Bogotá's public transport system**
 
